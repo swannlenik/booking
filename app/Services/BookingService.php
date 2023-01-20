@@ -18,10 +18,20 @@ class BookingService
         return Booking::where('id_time', '=', $timetableID)->orderBy('booking_time')->orderBY('user')->get();
     }
 
+    public function getBookingByPublicID(string $publicID): ?Booking {
+        return Booking::where('public_id', '=', $publicID)->first();
+    }
+
     public function addBooking(array $data): Booking {
-        $booking = new Booking();
+
+        if (!empty($data['public_id']) && $data['public_id'] !== '') {
+            $booking = $this->getBookingByPublicID($data['public_id']);
+        } else {
+            $booking = new Booking();
+            $booking->id_place = $data['id_place'];
+            $booking->public_id = uniqid();
+        }
         $booking->id_time = $data['id_time'];
-        $booking->id_place = $data['id_place'];
         $booking->booking_time = $data['booking_time'];
         $booking->user = $data['user'];
         $booking->email = $data['email'];
@@ -36,19 +46,25 @@ class BookingService
         $booking->delete();
     }
 
+    public function deleteBookingByPublicID(string $publicID): void {
+        $booking = Booking::where('public_id', '=', $publicID);
+        $booking->delete();
+    }
+
     public function getSlotsByTimetableID(int $timetableID): Collection {
         $tt = Timetable::find($timetableID);
         $startTime = Carbon::createFromFormat('H:i:s', $tt->start_time);
         $endTime = Carbon::createFromFormat('H:i:s', $tt->end_time);
-        $places = Place::all();
         $slots = [];
 
         while ($startTime < $endTime) {
-            $bookingsCount = Booking::where('id_place', '=', $tt->id_place)
-                ->where('booking_time', '=', $startTime->format('H:i'))
-                ->where('id_time', '=', $tt->id)
-                ->count();
-            $slots[$startTime->format('H:i')] = $tt->max_user - $bookingsCount;
+            //if ($startTime > Carbon::now()) {
+                $bookingsCount = Booking::where('id_place', '=', $tt->id_place)
+                    ->where('booking_time', '=', $startTime->format('H:i'))
+                    ->where('id_time', '=', $tt->id)
+                    ->count();
+                $slots[$startTime->format('H:i')] = $tt->max_user - $bookingsCount;
+            //}
             $startTime->addMinutes($tt->slot_duration);
         }
 
@@ -61,6 +77,5 @@ class BookingService
            ->where('booking_time', '=', $bookingTime)
            ->get();
        return $users;
-
     }
 }

@@ -17,5 +17,6 @@ class Booking extends Model
         'user',
         'email',
         'phone',
+        'public_id',
     ];
 }

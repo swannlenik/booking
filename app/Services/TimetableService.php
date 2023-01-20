@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Timetable;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class TimetableService
@@ -18,7 +17,7 @@ class TimetableService
 
     public function addTimetable(array $data): Timetable {
         $timetable = new Timetable();
-        $timetable->day = $data['day'];
+        $timetable->travel_day = $data['travel_day'];
         $timetable->id_place = $data['id_place'];
         $timetable->slot_duration = $data['slot_duration'];
         $timetable->max_user = $data['max_user'];
@@ -33,4 +32,13 @@ class TimetableService
         $timetable = Timetable::find($id);
         $timetable->delete();
     }
+
+    public function getTimetablesByDestinationAndDay(int $placeID, string $day): Collection {
+        $timetables = Timetable::where('id_place', '=', $placeID)
+            ->where('travel_day', '=', $day)
+            ->orderBy('start_time')
+            ->get();
+        return $timetables;
+    }
+
 }

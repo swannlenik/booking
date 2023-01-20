@@ -3,21 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+        <div class="col-md-12">
+            <h1>{{ __('Book a shuttle') }}</h1>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <a href="{{ route('admin.places') }}" class="btn btn-info">{{ __('Places') }}</a>
-                    <a href="{{ route('admin.timetables') }}" class="btn btn-info">{{ __('Timetables') }}</a>
-                </div>
-            </div>
+            <a href="{{ route('booking.new') }}" class="btn btn-info">{{ __('New booking') }}</a>
+            <a href="{{ route('booking.load') }}" class="btn btn-info">{{ __('Modify/Cancel booking') }}</a>
         </div>
     </div>
 </div>

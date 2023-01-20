@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('timetable', function (Blueprint $table) {
             $table->id();
-            $table->date('day');
+            $table->date('travel_day');
             $table->integer('id_place');
             $table->integer('slot_duration');
             $table->integer('max_user');

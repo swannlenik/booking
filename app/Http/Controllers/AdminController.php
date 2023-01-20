@@ -33,6 +33,11 @@ class AdminController extends Controller
         $this->userService = $userService;
     }
 
+    public function index()
+    {
+        return view('admin.home');
+    }
+
     public function places(): View {
         $places = $this->placeService->getPlaces();
 
@@ -85,7 +90,7 @@ class AdminController extends Controller
     protected function getTimetableValidators(): array
     {
         return [
-            'day' => ['required', 'date', 'date_format:Y-m-d'],
+            'travel_day' => ['required', 'date', 'date_format:Y-m-d'],
             'slot_duration' => ['required', 'numeric', 'min:15', 'max:60'],
             'max_user' => ['required', 'numeric', 'min:3'],
             'start_time' => ['required', 'date', 'date_format:H:i'],

@@ -24,7 +24,7 @@ class Authenticate extends Middleware
 
     public function handle($request, Closure $next, ...$guards)
     {
-        if (!$request->routeIs('login') && !in_array($request->user()->role, [
+        if (!$request->routeIs('login') && !in_array(($request->user()->role ?? 'ROLE_UNKNOWN'), [
             User::ROLE_DRIVER, User::ROLE_ADMIN
         ])) {
             abort(403);

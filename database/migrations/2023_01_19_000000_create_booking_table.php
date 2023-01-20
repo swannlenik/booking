@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('user');
             $table->string('email');
             $table->string('phone');
+            $table->string('public_id');
         });
     }
 

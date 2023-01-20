@@ -11,6 +11,10 @@ class PlaceService
         return Place::all()->keyBy('id');
     }
 
+    public function getPlaceByID(int $id): Place {
+        return Place::find($id);
+    }
+
     public function addPlace(array $data): Place {
         $place = new Place();
         $place->name = $data['name'];

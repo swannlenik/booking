@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,9 +24,21 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('start');
+
+Route::prefix('booking')->group(function (Router $router) {
+    $router->get('new', [BookingController::class, 'new'])->name('booking.new');
+    $router->post('view', [BookingController::class, 'viewPost'])->name('booking.view.post');
+    $router->get('view/{publicID}', [BookingController::class, 'view'])->name('booking.view');
+    $router->get('load', [BookingController::class, 'load'])->name('booking.load');
+    $router->post('details', [BookingController::class, 'details'])->name('booking.details');
+    $router->post('create', [BookingController::class, 'create'])->name('booking.create');
+    $router->get('modify/{publicID}', [BookingController::class, 'modify'])->name('booking.modify');
+    $router->delete('delete/{publicID}', [BookingController::class, 'delete'])->name('booking.delete');
+});
 
 Route::prefix('admin')->group(function (Router $router) {
+    $router->get('/home', [AdminController::class, 'index'])->name('home');
     $router->prefix('places')->group(function(Router $router) {
         $router->get('list', [AdminController::class, 'places'])->name('admin.places');
         $router->post('add', [AdminController::class, 'addPlace'])->name('admin.places.add');

@@ -11,7 +11,7 @@ class Timetable extends Model
     protected $table = 'timetable';
 
     protected $fillable = [
-        'day',
+        'travel_day',
         'id_place',
         'slot_duration',
         'max_user',
