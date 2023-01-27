@@ -29,7 +29,7 @@
                                     {{ $timetable->id }}
                                 </a>
                             </td>
-                            <td>{{ $timetable->day }}</td>
+                            <td>{{ $timetable->travel_day }}</td>
                             <td>{{ $places[$timetable->id_place]->name }}</td>
                             <td>{{ $timetable->slot_duration }}</td>
                             <td>{{ $timetable->max_user }}</td>
@@ -52,7 +52,7 @@
                         <form method="POST" action="{{ route('admin.timetables.add') }}">
                             <td></td>
                             <td>
-                                <input type="date" name="day" value="{{ old('day', date('Y-m-d')) }}" placeholder="{{ __('Day') }}" class="day-timetable form-control @error('day') is-invalid @enderror"/>
+                                <input type="date" name="travel_day" value="{{ old('day', date('Y-m-d')) }}" placeholder="{{ __('Day') }}" class="day-timetable form-control @error('day') is-invalid @enderror"/>
                             </td>
                             <td>
                                 <select name="id_place" class="form-select">
