@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->string('role');
+            $table->string('role')->default('ROLE_DRIVER');
         });
     }
 
