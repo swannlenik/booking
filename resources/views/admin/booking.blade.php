@@ -42,6 +42,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                        @if (count($users) <= 0)
+                            <tr>
+                                <td colspan="{{ Auth::user()->role === \App\Models\User::ROLE_ADMIN ? 4 : 3 }}" class="table-warning">
+                                    {{ __("No user for this time slot") }}
+                                </td>
+                            </tr>
+                        @endif
                         @foreach ($users as $user)
                             <tr>
                                 <td>{{ $user->user }}</td>
@@ -65,7 +72,7 @@
                     </table>
                 </div>
 
-                @if (Auth::user()->role === \App\Models\User::ROLE_ADMIN)
+                @if (Auth::user()->role === \App\Models\User::ROLE_ADMIN && $enableButton)
                 <h3>{{ __('New booking') }}</h3>
                 <form method="POST" action="{{ route('admin.booking.add') }}">
                     <div class="form-group row">

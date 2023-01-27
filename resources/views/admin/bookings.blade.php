@@ -14,7 +14,7 @@
                 <div class="col-md-12">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            {{ __('Day') }}: {{ $timetable->day }}
+                            {{ __('Day') }}: {{ $timetable->travel_day }}
                         </li>
                         <li class="list-group-item">
                             {{ __('From') }}: {{ $timetable->start_time }}

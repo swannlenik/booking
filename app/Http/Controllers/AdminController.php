@@ -7,6 +7,7 @@ use App\Services\BookingService;
 use App\Services\PlaceService;
 use App\Services\TimetableService;
 use App\Services\UserService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -102,7 +103,7 @@ class AdminController extends Controller
         $bookings = $this->bookingService->getBookingByTimetableID($timetableID);
         $places = $this->placeService->getPlaces();
         $timetable = $this->timetableService->getByID($timetableID);
-        $slots = $this->bookingService->getSlotsByTimetableID($timetableID);
+        $slots = $this->bookingService->getSlotsByTimetableIdAdmin($timetableID);
 
         return view('admin.bookings', [
             'bookings' => $bookings,
@@ -116,12 +117,14 @@ class AdminController extends Controller
         $users = $this->bookingService->getUsersByTimetableIdPlaceIdBookingTime($timetableID, $placeID, $bookingTime);
         $places = $this->placeService->getPlaces();
         $timetable = $this->timetableService->getByID($timetableID);
+        $time = Carbon::createFromFormat('Y-m-d H:i', sprintf('%s %s', $timetable->travel_day, $bookingTime), 'CST');
 
         return view('admin.booking', [
             'bookingTime' => $bookingTime,
             'places' => $places,
             'timetable' => $timetable,
             'users' => $users,
+            'enableButton' => $time->greaterThan(Carbon::now()),
         ]);
     }
 

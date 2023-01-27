@@ -87,6 +87,9 @@
         <main class="py-4">
             @yield('content')
         </main>
+        <footer class="fixed-bottom">
+            @yield('footer')
+        </footer>
     </div>
 </body>
 </html>

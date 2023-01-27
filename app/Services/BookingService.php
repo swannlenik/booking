@@ -53,18 +53,43 @@ class BookingService
 
     public function getSlotsByTimetableID(int $timetableID): Collection {
         $tt = Timetable::find($timetableID);
-        $startTime = Carbon::createFromFormat('H:i:s', $tt->start_time);
-        $endTime = Carbon::createFromFormat('H:i:s', $tt->end_time);
+        $startTime = Carbon::createFromFormat('Y-m-d H:i:s', sprintf('%s %s', $tt->travel_day, $tt->start_time), 'CST');
+        $endTime = Carbon::createFromFormat('Y-m-d H:i:s', sprintf('%s %s', $tt->travel_day, $tt->end_time), 'CST');
         $slots = [];
 
+        $now = Carbon::now('CST');
+
         while ($startTime < $endTime) {
-            //if ($startTime > Carbon::now()) {
+            if ($now->diffInSeconds($startTime, false) > 0 ||
+                $startTime->format('H') > $now->format('H') ||
+                ($startTime->format('H') === $now->format('H') &&
+                    $startTime->format('i') > $now->format('i'))) {
                 $bookingsCount = Booking::where('id_place', '=', $tt->id_place)
                     ->where('booking_time', '=', $startTime->format('H:i'))
                     ->where('id_time', '=', $tt->id)
                     ->count();
                 $slots[$startTime->format('H:i')] = $tt->max_user - $bookingsCount;
-            //}
+            }
+            $startTime->addMinutes($tt->slot_duration);
+        }
+
+        return collect($slots);
+    }
+
+    public function getSlotsByTimetableIdAdmin(int $timetableID): Collection {
+        $tt = Timetable::find($timetableID);
+        $startTime = Carbon::createFromFormat('Y-m-d H:i:s', sprintf('%s %s', $tt->travel_day, $tt->start_time), 'CST');
+        $endTime = Carbon::createFromFormat('Y-m-d H:i:s', sprintf('%s %s', $tt->travel_day, $tt->end_time), 'CST');
+        $slots = [];
+
+        $now = Carbon::now('CST');
+
+        while ($startTime < $endTime) {
+            $bookingsCount = Booking::where('id_place', '=', $tt->id_place)
+                ->where('booking_time', '=', $startTime->format('H:i'))
+                ->where('id_time', '=', $tt->id)
+                ->count();
+            $slots[$startTime->format('H:i')] = $tt->max_user - $bookingsCount;
             $startTime->addMinutes($tt->slot_duration);
         }
 

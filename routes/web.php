@@ -19,7 +19,7 @@ use Illuminate\Routing\Router;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Auth::routes();
@@ -30,7 +30,7 @@ Route::prefix('booking')->group(function (Router $router) {
     $router->get('new', [BookingController::class, 'new'])->name('booking.new');
     $router->post('view', [BookingController::class, 'viewPost'])->name('booking.view.post');
     $router->get('view/{publicID}', [BookingController::class, 'view'])->name('booking.view');
-    $router->get('load', [BookingController::class, 'load'])->name('booking.load');
+    $router->get('load/{publicID?}', [BookingController::class, 'load'])->name('booking.load');
     $router->post('details', [BookingController::class, 'details'])->name('booking.details');
     $router->post('create', [BookingController::class, 'create'])->name('booking.create');
     $router->get('modify/{publicID}', [BookingController::class, 'modify'])->name('booking.modify');

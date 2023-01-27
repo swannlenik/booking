@@ -13,7 +13,7 @@
                 <div class="form-group row">
                     <label for="public-id" class="col-md-2 col-form-label">{{ __('Booking Public ID') }}</label>
                     <div class="col-md-10">
-                        <input type="text" name="public_id" id="public-id" value="" class="form-control" placeholder="{{ __('Public ID') }}" />
+                        <input type="text" name="public_id" id="public-id" value="{{ $publicID }}" class="form-control" placeholder="{{ __('Public ID') }}" />
                         <small id="public-id-help" class="form-text text-muted">{{ __('It looks like an alpha-numeric string like, for example: "abc23455d32"') }}</small>
                     </div>
                 </div>
@@ -28,4 +28,12 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('footer')
+    <div class="card">
+        <div class="card-footer">
+            {{ __('For further informations, please contact') }} Murray (204-558-5679) {{ __('or') }} Tasha (204-330-0055)
+        </div>
+    </div>
 @endsection

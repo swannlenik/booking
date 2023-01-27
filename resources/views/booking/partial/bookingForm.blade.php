@@ -1,5 +1,18 @@
 <form method="{{ $method }}" action="{{ $route }}">
     <h2>{{ __($textTitle) }}</h2>
+    <h3>{{ __('') }}{{ $day }}</h3>
+    <div class="form-group row">
+        <label for="user" class="col-md-2 col-form-label">{{ __('Destination') }}</label>
+        <div class="col-md-10">
+            <input type="text" readonly class="form-control-plaintext" id="destination-name" value="{{ $place->name }}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="user" class="col-md-2 col-form-label">{{ __('Date') }}</label>
+        <div class="col-md-10">
+            <input type="text" readonly class="form-control-plaintext" id="booking-date" value="{{ $day }}">
+        </div>
+    </div>
     <div class="form-group row">
         <label for="user" class="col-md-2 col-form-label">{{ __('First and last name') }}</label>
         <div class="col-md-10">

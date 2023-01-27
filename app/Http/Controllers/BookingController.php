@@ -68,6 +68,7 @@ class BookingController extends Controller
             'idTime' => 0,
             'bookingTime' => 0,
             'publicID' => '',
+            'place' => $this->placeService->getPlaceByID($placeID),
         ]);
     }
 
@@ -102,8 +103,10 @@ class BookingController extends Controller
         ]);
     }
 
-    public function load(Request $request): View {
-        return view('booking.load');
+    public function load(Request $request, string $publicID = ''): View {
+        return view('booking.load', [
+            'publicID' => $publicID,
+        ]);
     }
 
     public function viewPost(Request $request) {
@@ -140,6 +143,7 @@ class BookingController extends Controller
             'bookingTime' => 0,
             'publicID' => '',
             'booking' => $booking,
+            'place' => $this->placeService->getPlaceByID($placeID),
         ]);
     }
 }

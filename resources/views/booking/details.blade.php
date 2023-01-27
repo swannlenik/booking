@@ -23,3 +23,11 @@
     </div>
 </div>
 @endsection
+
+@section('footer')
+    <div class="card">
+        <div class="card-footer">
+            {{ __('For further informations, please contact') }} Murray (204-558-5679) {{ __('or') }} Tasha (204-330-0055)
+        </div>
+    </div>
+@endsection
