@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Place;
 use App\Models\Timetable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class EmailService
@@ -28,6 +29,11 @@ class EmailService
             $message->subject('Your booking for a shuttle is confirmed!');
             $message->to($booking->email);
         });
+        Log::info('Send Confirmation Email', [
+            'booking' => $booking->toArray(),
+            'place' => $place->toArray(),
+            'timetable' => $timetable->toArray(),
+        ]);
     }
 
     public static function sendCancellationEmail(Booking $booking): void {
@@ -38,5 +44,8 @@ class EmailService
             $message->subject('Your booking for a shuttle is cancelled!');
             $message->to($booking->email);
         });
+        Log::info('Send Cancellation Email', [
+            'booking' => $booking->toArray(),
+        ]);
     }
 }
