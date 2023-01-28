@@ -29,7 +29,7 @@
                             {{ __('Spots available for each slot') }}: {{ $timetable->max_user }} {{ __('persons') }}
                         </li>
                         <li class="list-group-item">
-                            {{ __('Direction') }}: <strong>{{ $places[$timetable->id_place]->name }}</strong>
+                            {{ __('Pick-up at') }}: <strong>{{ $places[$timetable->id_place]->name }}</strong>
                         </li>
                     </ul>
                 </div>

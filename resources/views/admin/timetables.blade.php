@@ -11,7 +11,7 @@
                     <tr>
                         <th scope="col" class="col-md-1">{{ __('ID') }}</th>
                         <th scope="col" class="col-md-1">{{ __('Day') }}</th>
-                        <th scope="col" class="col-md-4">{{ __('Direction') }}</th>
+                        <th scope="col" class="col-md-4">{{ __('Pick-up at') }}</th>
                         <th scope="col" class="col-md-2">{{ __('Slot duration') }} ({{ __('in minutes') }})</th>
                         <th scope="col" class="col-md-1">{{ __('Max users') }}</th>
                         <th scope="col" class="col-md-1">{{ __('Start time') }}</th>

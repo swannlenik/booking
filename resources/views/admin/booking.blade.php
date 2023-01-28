@@ -14,13 +14,13 @@
                 <div class="col-md-12">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            {{ __('Day') }}: {{ $timetable->day }}
+                            {{ __('Day') }}: {{ $timetable->travel_day }}
                         </li>
                         <li class="list-group-item">
                             {{ __('Leaving at') }}: {{ $bookingTime }}
                         </li>
                         <li class="list-group-item">
-                            {{ __('Direction') }}: <strong>{{ $places[$timetable->id_place]->name }}</strong>
+                            {{ __('Pick-up at') }}: <strong>{{ $places[$timetable->id_place]->name }}</strong>
                         </li>
                         <li class="list-group-item">
                             {{ __('Spots available') }}: {{ $timetable->max_user - count($users) }}

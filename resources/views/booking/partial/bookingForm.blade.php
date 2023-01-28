@@ -2,7 +2,7 @@
     <h2>{{ __($textTitle) }}</h2>
     <h3>{{ __('') }}{{ $day }}</h3>
     <div class="form-group row">
-        <label for="user" class="col-md-2 col-form-label">{{ __('Destination') }}</label>
+        <label for="user" class="col-md-2 col-form-label">{{ __('Pick-up at') }}</label>
         <div class="col-md-10">
             <input type="text" readonly class="form-control-plaintext" id="destination-name" value="{{ $place->name }}">
         </div>

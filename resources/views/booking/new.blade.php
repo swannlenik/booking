@@ -11,7 +11,7 @@
 
             <form method="POST" action="{{ route('booking.details') }}">
                 <div class="form-group row">
-                    <label for="destination" class="col-md-2 col-form-label">{{ __('Destination') }}</label>
+                    <label for="destination" class="col-md-2 col-form-label">{{ __('Pick-up at') }}</label>
                     <div class="col-md-10">
                         <select class="form-select" name="destination" id="destination">
                             @foreach($places as $place)

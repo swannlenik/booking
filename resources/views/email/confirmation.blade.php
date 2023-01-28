@@ -2,7 +2,7 @@
     <h1>Booking confirmed!</h1>
 </div>
 <div style="width: 100%; padding: 10px">
-    You booked a shuttle for <u>{{ $destination }}</u> at <b>{{ $bookingTime }}</b> on <b>{{ $bookingDay }}</b>.
+    You booked a shuttle to <u>{{ $destination }}</u> at <b>{{ $bookingTime }}</b> on <b>{{ $bookingDay }}</b>.
 </div>
 <div style="width: 100%; padding: 10px">
     <a href="{{ $viewURL }}">

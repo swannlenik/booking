@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <ul class="list-group">
                     <li class="list-group-item">{{ __('Booking reference') }}: {{ $booking->public_id }}</li>
-                    <li class="list-group-item">{{ __('Destination') }}: {{ $place->name }}</li>
+                    <li class="list-group-item">{{ __('Pick-up at') }}: {{ $place->name }}</li>
                     <li class="list-group-item">{{ __('Day Booked') }}: {{ $timetable->travel_day }}</li>
                     <li class="list-group-item">{{ __('Time Booked') }}: {{ $booking->booking_time }}</li>
                     <li class="list-group-item">{{ __('User') }}: {{ $booking->user }}</li>
