@@ -33,7 +33,8 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col" class="col-md-5">{{ __('First and Last Name') }}</th>
+                                <th scope="col" class="col-md-1">{{ __('#') }}</th>
+                                <th scope="col" class="col-md-4">{{ __('First and Last Name') }}</th>
                                 <th scope="col" class="col-md-3">{{ __('Email address') }}</th>
                                 <th scope="col" class="col-md-3">{{ __('Phone number') }}</th>
                                 @if (Auth::user()->role === \App\Models\User::ROLE_ADMIN)
@@ -49,8 +50,9 @@
                                 </td>
                             </tr>
                         @endif
-                        @foreach ($users as $user)
+                        @foreach ($users as $id => $user)
                             <tr>
+                                <td>{{ $id + 1 }}</td>
                                 <td>{{ $user->user }}</td>
                                 <td>{{ __('Phone') }}: {{ $user->phone }}</td>
                                 <td>{{ __('Email') }}: {{ $user->email }}</td>
@@ -72,7 +74,7 @@
                     </table>
                 </div>
 
-                @if (Auth::user()->role === \App\Models\User::ROLE_ADMIN && $enableButton)
+                @if (Auth::user()->role === \App\Models\User::ROLE_ADMIN && $enableButton && count($users) < $timetable->max_user )
                 <h3>{{ __('New booking') }}</h3>
                 <form method="POST" action="{{ route('admin.booking.add') }}">
                     <div class="form-group row">

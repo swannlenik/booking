@@ -37,7 +37,9 @@
             <select name="time" id="slot" class="form-select" onchange="updateTimetableIdAndBookingTime(this)">
                 @foreach ($slots as $timetableID => $list)
                     @foreach ($list as $time => $available)
-                    <option value="{{ $timetableID }}-{{ $time }}" {{ $timetableID === ($booking->id_time ?? '') && substr(($booking->booking_time ?? ''), 0, 5) === $time ? 'selected="selected"' : '' }}>{{ $time }} - {{ $available }} {{ __('spots left') }}</option>
+                        @if ($available > 0)
+                        <option value="{{ $timetableID }}-{{ $time }}" {{ $timetableID === ($booking->id_time ?? '') && substr(($booking->booking_time ?? ''), 0, 5) === $time ? 'selected="selected"' : '' }}>{{ $time }} - {{ $available }} {{ __('spots left') }}</option>
+                        @endif
                     @endforeach
                 @endforeach
             </select>
