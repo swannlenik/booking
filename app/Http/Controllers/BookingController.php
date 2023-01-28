@@ -74,7 +74,7 @@ class BookingController extends Controller
 
     public function create(Request $request): View {
         $booking = $this->bookingService->addBooking($request->post());
-
+        
         return view('booking.create', [
             'booking' => $booking,
             'titleText' => strlen($request->post('public_id') ?? '') > 0 ? 'Booking updated' : 'Booking created',
