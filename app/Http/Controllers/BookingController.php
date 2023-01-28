@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Services\BookingService;
+use App\Services\EmailService;
 use App\Services\PlaceService;
 use App\Services\TimetableService;
 use Illuminate\Http\Request;
@@ -53,7 +54,10 @@ class BookingController extends Controller
         $slots = [];
 
         foreach ($timetables as $timetable) {
-            $slots[$timetable->id] = $this->bookingService->getSlotsByTimetableID($timetable->id);
+            $availableSlots = $this->bookingService->getSlotsByTimetableID($timetable->id);
+            if ($availableSlots->isNotEmpty()) {
+                $slots[$timetable->id] = $this->bookingService->getSlotsByTimetableID($timetable->id);
+            }
         }
 
         return view('booking.details', [
@@ -74,7 +78,9 @@ class BookingController extends Controller
 
     public function create(Request $request): View {
         $booking = $this->bookingService->addBooking($request->post());
-        
+
+        $this->sendEmail($booking);
+
         return view('booking.create', [
             'booking' => $booking,
             'titleText' => strlen($request->post('public_id') ?? '') > 0 ? 'Booking updated' : 'Booking created',
@@ -127,7 +133,10 @@ class BookingController extends Controller
         $slots = [];
 
         foreach ($timetables as $timetable) {
-            $slots[$timetable->id] = $this->bookingService->getSlotsByTimetableID($timetable->id);
+            $availableSlots = $this->bookingService->getSlotsByTimetableID($timetable->id);
+            if ($availableSlots->isNotEmpty()) {
+                $slots[$timetable->id] = $this->bookingService->getSlotsByTimetableID($timetable->id);
+            }
         }
 
         return view('booking.details', [
@@ -145,5 +154,12 @@ class BookingController extends Controller
             'booking' => $booking,
             'place' => $this->placeService->getPlaceByID($placeID),
         ]);
+    }
+
+    private function sendEmail(Booking $booking): void {
+        $place = $this->placeService->getPlaceByID($booking->id_place);
+        $table = $this->timetableService->getByID($booking->id_time);
+
+        EmailService::sendEmail($booking, $place, $table);
     }
 }

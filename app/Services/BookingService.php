@@ -59,6 +59,9 @@ class BookingService
 
         $now = Carbon::now('CST');
 
+        if ($endTime->lessThan($now)) {
+            return collect([]);
+        }
         while ($startTime < $endTime) {
             if ($now->diffInSeconds($startTime, false) > 0 ||
                 $startTime->format('H') > $now->format('H') ||
