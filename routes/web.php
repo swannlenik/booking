@@ -29,7 +29,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('start');
 Route::prefix('booking')->group(function (Router $router) {
     $router->get('new', [BookingController::class, 'new'])->name('booking.new');
     $router->post('view', [BookingController::class, 'viewPost'])->name('booking.view.post');
-    $router->get('view/{publicID}', [BookingController::class, 'view'])->name('booking.view');
+    $router->get('view/{publicID?}', [BookingController::class, 'view'])->name('booking.view');
     $router->get('load/{publicID?}', [BookingController::class, 'load'])->name('booking.load');
     $router->post('details', [BookingController::class, 'details'])->name('booking.details');
     $router->post('create', [BookingController::class, 'create'])->name('booking.create');

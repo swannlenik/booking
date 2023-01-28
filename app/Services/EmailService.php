@@ -11,9 +11,13 @@ use Illuminate\Support\Facades\Mail;
 class EmailService
 {
     protected const CONFIRMATION_TEMPLATE = 'email.confirmation';
+    protected const CANCELLATION_TEMPLATE = 'email.cancel';
     protected const FROM_EMAIL = 'booking@2023nationals.ca';
 
-    public static function sendEmail(Booking $booking, Place $place, Timetable $timetable): void {
+    public const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
+    public const SEND_CANCELLATION = 'SEND_CANCELLATION';
+
+    public static function sendConfirmationEmail(Booking $booking, Place $place, Timetable $timetable): void {
         Mail::send(self::CONFIRMATION_TEMPLATE, [
             'destination' => $place->name,
             'bookingTime' => $booking->booking_time,
@@ -22,6 +26,16 @@ class EmailService
         ], function ($message) use ($booking) {
             $message->from(self::FROM_EMAIL, 'Shuttle Service');
             $message->subject('Your booking for a shuttle is confirmed!');
+            $message->to($booking->email);
+        });
+    }
+
+    public static function sendCancellationEmail(Booking $booking): void {
+        Mail::send(self::CANCELLATION_TEMPLATE, [
+            'newURL' => route('booking.new'),
+        ], function ($message) use ($booking) {
+            $message->from(self::FROM_EMAIL, 'Shuttle Service');
+            $message->subject('Your booking for a shuttle is cancelled!');
             $message->to($booking->email);
         });
     }

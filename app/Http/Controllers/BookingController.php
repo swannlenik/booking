@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Booking;
+use App\Models\Place;
+use App\Models\Timetable;
 use App\Services\BookingService;
 use App\Services\EmailService;
 use App\Services\PlaceService;
 use App\Services\TimetableService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -78,8 +81,7 @@ class BookingController extends Controller
 
     public function create(Request $request): View {
         $booking = $this->bookingService->addBooking($request->post());
-
-        $this->sendEmail($booking);
+        $this->sendEmail($booking, EmailService::SEND_CONFIRMATION);
 
         return view('booking.create', [
             'booking' => $booking,
@@ -87,12 +89,16 @@ class BookingController extends Controller
         ]);
     }
 
-    public function delete(Request $request, string $publicID) {
-        $this->bookingService->deleteBookingByPublicID($publicID);
-        return to_route('booking.new');
+    public function delete(Request $request, string $publicID): View {
+        $booking = $this->bookingService->getBookingByPublicID($publicID);
+        if (!empty($booking)) {
+            $this->sendEmail($booking, EmailService::SEND_CANCELLATION);
+            $this->bookingService->deleteBookingByPublicID($publicID);
+        }
+        return view('booking.delete');
     }
 
-    public function view(Request $request, string $publicID): View {
+    public function view(Request $request, string $publicID = ''): View {
         $booking = $this->bookingService->getBookingByPublicID($publicID);
         if (!empty($booking)) {
             $timetable = $this->timetableService->getByID($booking->id_time);
@@ -156,10 +162,27 @@ class BookingController extends Controller
         ]);
     }
 
-    private function sendEmail(Booking $booking): void {
-        $place = $this->placeService->getPlaceByID($booking->id_place);
-        $table = $this->timetableService->getByID($booking->id_time);
+    private function sendEmail(Booking $booking, string $emailType): void {
+        switch ($emailType) {
+            case EmailService::SEND_CONFIRMATION:
+                $place = $this->placeService->getPlaceByID($booking->id_place);
+                $table = $this->timetableService->getByID($booking->id_time);
 
-        EmailService::sendEmail($booking, $place, $table);
+                $this->sendConfirmationEmail($booking, $place, $table);
+                break;
+            case EmailService::SEND_CANCELLATION:
+                $this->sendCancellationEmail($booking);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private function sendConfirmationEmail(Booking $booking, Place $place, Timetable $table): void {
+        EmailService::sendConfirmationEmail($booking, $place, $table);
+    }
+
+    private function sendCancellationEmail(Booking $booking): void {
+        EmailService::sendCancellationEmail($booking);
     }
 }
